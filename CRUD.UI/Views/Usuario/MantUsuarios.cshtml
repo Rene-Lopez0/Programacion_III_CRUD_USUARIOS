@@ -1,0 +1,175 @@
+﻿@{
+    var ListaRoles = ViewBag.ListaRoles;
+
+}
+
+
+<head>
+
+    <link href="~/css/mantusuariocss/mantusuario.css" rel="stylesheet" />
+    <script defer src="~/js/mantusuariojs/mantusuario.js"></script>
+
+</head>
+
+
+<h1 class="LineaTitulo">Mantenimiento de usuarios</h1>
+
+<div class="TabUsuarios">
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true"><i class="fa-solid fa-user-check"></i>&nbsp;Crear usuario</button>
+            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"><i class="fa-solid fa-user-pen"></i>&nbsp;Editar o eliminar usuarios</button>
+
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+
+
+            <div class="row ContenidoTab">
+
+                <div class="col-4">
+
+                    <label class="form-label">Correo electrónico:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                        <input type="text" class="form-control" id="InputCorreo" placeholder="Ingrese su correo electrónico" />
+                    </div>
+                </div>
+
+                <div class="col-4">
+
+                    <label class="form-label">Contraseña:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" class="form-control" id="InputContrasena" placeholder="Ingrese su contraseña" />
+                    </div>
+                </div>
+
+                <div class="col-4">
+
+                    <label class="form-label">Rol:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-arrows-down-to-people"></i></span>
+
+                        <select class="form-select" id="InputRol">
+
+                            <option value="0" selected>Seleccione una opción</option>
+
+                            @foreach (var Rol in ListaRoles)
+                            {
+                                <option value="@Rol.IdRol">@Rol.NombreRol</option>
+
+                            }
+
+
+                         
+
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-4">
+
+                    <label class="form-label">Nombre:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
+                        <input type="text" class="form-control" id="InputNombre" placeholder="Ingrese su nombre" />
+                    </div>
+                </div>
+
+                <div class="col-4">
+
+                    <label class="form-label">Primer apellido:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
+                        <input type="text" class="form-control" id="InputApellido1" placeholder="Ingrese su primer apellido" />
+                    </div>
+                </div>
+
+
+                <div class="col-4">
+
+                    <label class="form-label">Segundo apellido:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
+                        <input type="text" class="form-control" id="InputApellido2" placeholder="Ingrese su segundo apellido" />
+                    </div>
+                </div>
+
+                <div class="col-4">
+
+                    <label class="form-label">Fecha de nacimiento:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                        <input type="date" class="form-control" id="InputFechaNac" placeholder="Ingrese su fecha de nacimiento" />
+                    </div>
+                </div>
+
+
+                <div class="col-4">
+
+                    <label class="form-label">Género:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-venus-mars"></i></span>
+
+                        <select class="form-select" id="InputGenero">
+                            <option value="0" selected>Seleccione una opción</option>
+                            <option value="1">Masculino</option>
+                            <option value="2">Femenino</option>
+                            <option value="3">No binario</option>
+                            <option value="4">Prefieron no responder</option>
+
+
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-4">
+
+                    <label class="form-label">Telefono:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+                        <input type="text" class="form-control" id="InputTelefono" placeholder="Ingrese su número de teléfono" />
+                    </div>
+                </div>
+
+
+
+                <div class="col-12">
+
+                    <label class="form-label">Dirección:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-map-location-dot"></i></span>
+                        <textarea class="form-control" id="InputDireccion" placeholder="Ingrese su dirección"></textarea>
+                    </div>
+                </div>
+
+
+                <div class="col-4 BotonesCrearCancelar">
+
+                    <button class="btn btn-primary" id="btnCrearUsuario"><i class="fa-solid fa-floppy-disk"></i>&nbsp;Crear Usuario</button>
+                    <button class="btn btn-danger" id="btnCancelar"><i class="fa-solid fa-ban"></i>&nbsp;Cancelar</button>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+
+            Sitio en construcción
+
+        </div>
+
+    </div>
+
+</div>
+
+
+

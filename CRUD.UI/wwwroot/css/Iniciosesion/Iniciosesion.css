@@ -1,0 +1,26 @@
+﻿@keyframes AnimacionFondo {
+
+    100% {
+        background-position: 15% 30%;
+    }
+}
+
+
+body {
+    background-image: url(/Resources/FondoInicioSesion.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    animation: AnimacionFondo 6s infinite alternate linear;
+}
+
+.ContenedorInicioSesion {
+    margin-top: 13%;
+    background-color: rgba(255,255,255, 0.5);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0, 0.6);
+    backdrop-filter: blur(5px);
+    color: #FFF;
+}
+
+

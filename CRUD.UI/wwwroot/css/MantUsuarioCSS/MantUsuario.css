@@ -1,0 +1,24 @@
+﻿
+
+.LineaTitulo {
+    border-bottom: 4px solid #00BFFF;
+    padding-top: 4px;
+    padding-bottom: 10px;
+}
+
+.TabUsuarios{
+
+    margin-top: 20px;
+
+}
+
+.ContenidoTab{
+    margin-top: 20px;
+
+}
+
+
+.BotonesCrearCancelar{
+
+    margin-top: 15px;
+}
