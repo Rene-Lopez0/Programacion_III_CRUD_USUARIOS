@@ -15,6 +15,7 @@ namespace CRUD.DATA.DAPPER
         //Procedimientos almacenados
 
         private const string sp_spObtenerRoles = "spObtenerRoles";
+        private const string sp_spRegistrarUsuarios = "spRegistrarUsuarios";
 
         #endregion
 
@@ -111,7 +112,71 @@ namespace CRUD.DATA.DAPPER
 
         }
 
+        public Respuesta<UsuarioDTO> RegistrarUsuarios(UsuarioDTO ObjUsuario)
+        {
 
+            Respuesta<UsuarioDTO> respuesta = new Respuesta<UsuarioDTO>();
+            try
+            {
+
+                var ConexionBD = _Config.GetConnectionString("Conexion");
+
+                using (SqlConnection connection = new SqlConnection(ConexionBD))
+                {
+
+                    connection.Open();
+
+
+                    using (SqlCommand command = new SqlCommand(sp_spRegistrarUsuarios, connection))
+                    {
+
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.Add(new SqlParameter("@pCorreo", SqlDbType.NVarChar, 80) { Value = ObjUsuario.Correo });
+                        command.Parameters.Add(new SqlParameter("@pContrasena", SqlDbType.NVarChar, 50) { Value = ObjUsuario.Contrasena });
+                        command.Parameters.Add(new SqlParameter("@pIdRol", SqlDbType.Int) { Value = ObjUsuario.IdRol });
+                        command.Parameters.Add(new SqlParameter("@pNombre", SqlDbType.NVarChar, 50) { Value = ObjUsuario.Nombre });
+                        command.Parameters.Add(new SqlParameter("@pApellido1", SqlDbType.NVarChar, 50) { Value = ObjUsuario.Apellido1 });
+                        command.Parameters.Add(new SqlParameter("@pApellido2", SqlDbType.NVarChar, 50) { Value = ObjUsuario.Apellido2 });
+                        command.Parameters.Add(new SqlParameter("@pFechaNac", SqlDbType.Date) { Value = ObjUsuario.FechaNacimiento });
+                        command.Parameters.Add(new SqlParameter("@pGenero", SqlDbType.NVarChar, 50) { Value = ObjUsuario.Genero });
+                        command.Parameters.Add(new SqlParameter("@pTelefono", SqlDbType.NVarChar, 50) { Value = ObjUsuario.Telefono });
+                        command.Parameters.Add(new SqlParameter("@pDireccion", SqlDbType.NVarChar, 400) { Value = ObjUsuario.Direccion });
+
+                        int FilasAfectadas = command.ExecuteNonQuery();
+
+                        if (FilasAfectadas > 0)
+                        {
+
+                            respuesta.Ok = true;
+                            respuesta.Mensaje = "El usuario ha sido registrado de manera exitosa.";
+                            respuesta.ValorRetorno = null;
+
+                        }
+                        else
+                        {
+                            respuesta.Ok = false;
+                            respuesta.Mensaje = "Ha ocurrido un error al intentar registrar el usuario.";
+                            respuesta.ValorRetorno = null;
+
+                        }
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                respuesta.Ok = false;
+                respuesta.Mensaje = $"Ha ocurrido un error en la función RegistrarUsuarios de la capa DAPPER {ex.Message}";
+                respuesta.ValorRetorno = null;
+            }
+
+            return respuesta;
+
+        }
 
         #endregion
 
