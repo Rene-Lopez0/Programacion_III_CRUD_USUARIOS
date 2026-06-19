@@ -60,6 +60,37 @@ namespace CRUD.LOGICA.NEGOCIO
         }
 
 
+        public Respuesta<UsuarioDTO> RegistrarUsuarios(UsuarioDTO ObjUsuario)
+        {
+
+            Respuesta<UsuarioDTO> respuesta = new Respuesta<UsuarioDTO>();
+
+            try
+            {
+
+                var resDAL = _MantUsuarioDapper.RegistrarUsuarios(ObjUsuario);
+
+                if (resDAL != null)
+                {
+
+                    respuesta = resDAL;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                respuesta.Ok = false;
+                respuesta.Mensaje = $"Ha ocurrido un error en la función RegistrarUsuarios {ex.Message}";
+                respuesta.ValorRetorno= null;
+            }
+
+            return respuesta;
+
+        }
+
+
 
         #endregion
 
