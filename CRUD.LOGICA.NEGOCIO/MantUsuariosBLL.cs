@@ -90,6 +90,36 @@ namespace CRUD.LOGICA.NEGOCIO
 
         }
 
+        public Respuesta<List<UsuarioDTO>> ObtenerUsuarios()
+        {
+
+            Respuesta<List<UsuarioDTO>> respuesta = new Respuesta<List<UsuarioDTO>>();
+
+            try
+            {
+
+                var ResDal = _MantUsuarioDapper.ObtenerUsuarios();
+
+                if (ResDal != null)
+                {
+                    respuesta = ResDal;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                respuesta.Ok = false;
+                respuesta.Mensaje = $"Ha ocurrido un error en la capa MantUsuarioBLL en el método ObtenerUsuarios {ex.Message}";
+                respuesta.ValorRetorno = null;
+            }
+
+            return respuesta;
+
+
+        }
+
 
 
         #endregion

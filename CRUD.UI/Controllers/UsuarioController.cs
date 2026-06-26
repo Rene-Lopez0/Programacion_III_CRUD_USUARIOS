@@ -30,6 +30,7 @@ namespace CRUD.UI.Controllers
         public IActionResult MantUsuarios()
         {
             ObtenerRoles();
+            ObtenerUsuarios();
             return View();
         }
 
@@ -94,6 +95,38 @@ namespace CRUD.UI.Controllers
             }
 
             return respuesta;
+
+        }
+
+        public Respuesta<List<UsuarioDTO>> ObtenerUsuarios()
+        {
+
+            Respuesta<List<UsuarioDTO>> respuesta = new Respuesta<List<UsuarioDTO>>();
+
+            try
+            {
+
+                var ResBLL = _MantUsuarioBLL.ObtenerUsuarios();
+
+                if (ResBLL != null)
+                {
+                    respuesta = ResBLL;
+
+                    ViewBag.ListaUsuarios = respuesta.ValorRetorno;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                respuesta.Ok = false;
+                respuesta.Mensaje = $"Ha ocurrido un error en la capa UsuarioController en el método ObtenerUsuarios {ex.Message}";
+                respuesta.ValorRetorno = null;
+            }
+
+            return respuesta;
+
 
         }
 
