@@ -1,6 +1,6 @@
 ﻿@{
     var ListaRoles = ViewBag.ListaRoles;
-
+    var ListaUsuarios = ViewBag.ListaUsuarios;
 }
 
 
@@ -163,12 +163,221 @@
         </div>
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
 
-            Sitio en construcción
+            
+            <div class="row ContenidoTab">
+
+
+                <table id="TbUsuarios" class="table table-light table-hover mt-5">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Nombre Completo</th>
+                            <th>Teléfono</th>
+                            <th>Acciones</th>
+
+                           
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+
+                        @foreach (var usr in ListaUsuarios)
+                        {
+
+                            <tr>
+
+                                <td>@usr.Correo</td>
+                                <td>@usr.NombreRol</td>
+                                <td>@usr.NombreCompleto</td>
+                                <td>@usr.Telefono</td>
+                                <td>
+
+                                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEditarEliminarUsuario"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Editar</button>
+                                    <button class="btn btn-danger"><i class="fa-solid fa-trash"></i>&nbsp;Eliminar</button>
+
+
+                                </td>
+
+                            </tr>
+
+
+                        }
+
+
+
+                       
+
+                        
+
+                    </tbody>
+
+
+
+                </table>
+
+
+            </div>
+
+
+
 
         </div>
 
     </div>
 
+</div>
+
+
+
+<!-- Modal: Editar / Eliminar Usuario -->
+<div class="modal fade" id="modalEditarEliminarUsuario" tabindex="-1" aria-labelledby="tituloModalUsuario" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 80vw;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloModalUsuario">
+                    <i class="fa-solid fa-user-gear me-2"></i>Editar / Eliminar Usuario
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="modal-body">
+                <!-- (Opcional) ID oculto del usuario -->
+                <input class="form-control" type="text" id="ModalInputIdUsuario" />
+
+                <div class="container-fluid">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <h6 class="mb-2 text-body-secondary">Datos de acceso</h6>
+                            <hr class="mt-0 mb-3">
+                        </div>
+
+                        <div class="col-4">
+                            <label class="form-label">Correo:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                                <input class="form-control" id="ModalInputCorreo" type="text" placeholder="Ingrese el correo electrónico" />
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <label class="form-label">Contraseña:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                                <input class="form-control" id="ModalInputContrasena" type="password" placeholder="Ingrese su contraseña" />
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+
+                            <label class="form-label">Rol:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-solid fa-arrows-down-to-people"></i></span>
+
+                                <select class="form-select" id="ModalInputRol">
+
+                                    <option value="0" selected>Seleccione una opción</option>
+
+                                    @foreach (var Rol in ListaRoles)
+                                    {
+                                        <option value="@Rol.IdRol">@Rol.NombreRol</option>
+
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <label class="form-label">Nombre:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
+                                <input class="form-control" id="ModalInputNombre" type="text" placeholder="Ingrese su nombre" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-4">
+                            <label class="form-label">Primer apellido:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
+                                <input class="form-control" id="ModalInputApellido1" type="text" placeholder="Ingrese su primer apellido" />
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <label class="form-label">Segundo apellido:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-solid fa-address-card"></i></span>
+                                <input class="form-control" id="ModalInputApellido2" type="text" placeholder="Ingrese su segundo apellido" />
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+
+                            <label class="form-label">Fecha de nacimiento:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                                <input type="date" class="form-control" id="ModalInputFechaNac" placeholder="Ingrese su fecha de nacimiento" />
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+
+                            <label class="form-label">Género:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-solid fa-venus-mars"></i></span>
+
+                                <select class="form-select" id="ModalInputGenero">
+                                    <option value="0" selected>Seleccione una opción</option>
+                                    <option value="1">Masculino</option>
+                                    <option value="2">Femenino</option>
+                                    <option value="3">No binario</option>
+                                    <option value="4">Prefieron no responder</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <label class="form-label">Teléfono:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+                                <input class="form-control" id="ModalInputTelefono" type="text" placeholder="Ingrese número de teléfono" />
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+
+                            <label class="form-label">Dirección:</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-solid fa-map-location-dot"></i></span>
+                                <textarea class="form-control" id="ModalInputDireccion" placeholder="Ingrese su dirección"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer d-flex justify-content-between">
+
+                <button type="button" class=" btn btn-outline-danger" id="ModalbtnEliminarUsuario"><i class="fa-solid fa-trash"></i>&nbsp;Eliminar</button>
+
+
+                <div>
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="ModalbtnCancelarUsuario"><i class="fa-solid fa-xmark"></i>&nbsp;Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="ModalbtnGuardarUsuario"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Guardar cambios</button>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
 </div>
 
 

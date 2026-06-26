@@ -16,6 +16,7 @@ namespace CRUD.DATA.DAPPER
 
         private const string sp_spObtenerRoles = "spObtenerRoles";
         private const string sp_spRegistrarUsuarios = "spRegistrarUsuarios";
+        private const string sp_spObtenerUsuarios = "spObtenerUsuarios";
 
         #endregion
 
@@ -31,7 +32,7 @@ namespace CRUD.DATA.DAPPER
         public MantUsuariosDAPPER(IConfiguration configuration)
         {
 
-            _Config = configuration;
+            _Config = configuration; 
         }
 
         #endregion
@@ -177,6 +178,82 @@ namespace CRUD.DATA.DAPPER
             return respuesta;
 
         }
+
+
+        public Respuesta<List<UsuarioDTO>> ObtenerUsuarios()
+        {
+
+            Respuesta<List<UsuarioDTO>> respuesta = new Respuesta<List<UsuarioDTO>>();
+            List<UsuarioDTO> ListaUsuarios = new List<UsuarioDTO>();
+            try
+            {
+
+                var ConexionBD = _Config.GetConnectionString("Conexion");
+
+                using (SqlConnection connection = new SqlConnection(ConexionBD))
+                {
+
+                    connection.Open();
+
+
+                    using (SqlCommand command = new SqlCommand(sp_spObtenerUsuarios, connection))
+                    {
+
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        //command.Parameters.Add(new SqlParameter("@pCorreo", SqlDbType.NVarChar, 80) { Value = ObjUsuario.Correo });
+                        //command.Parameters.Add(new SqlParameter("@pContrasena", SqlDbType.NVarChar, 50) { Value = ObjUsuario.Contrasena });
+
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+
+                                UsuarioDTO Usuario = new UsuarioDTO
+                                {
+                                    Correo = (string)reader["Correo"],
+                                    NombreRol = (string)reader["NombreRol"],
+                                    NombreCompleto = (string)reader["NombreCompleto"],
+                                    Telefono = (string)reader["Telefono"],
+                                    IdUsuario = (int)reader["IdUsuario"],
+
+                                };
+
+                                ListaUsuarios.Add(Usuario);
+
+
+
+
+                            }
+
+                            respuesta.Ok = true;
+                            respuesta.Mensaje = "Se han obtenido los usuarios de manera exitosa.";
+                            respuesta.ValorRetorno = ListaUsuarios;
+
+
+                        }
+
+
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                respuesta.Ok = false;
+                respuesta.Mensaje = $"Ha ocurrido un error en la función ObtenerUsuarios de la capa DAPPER {ex.Message}";
+                respuesta.ValorRetorno = null;
+            }
+
+            return respuesta;
+
+        }
+
 
         #endregion
 

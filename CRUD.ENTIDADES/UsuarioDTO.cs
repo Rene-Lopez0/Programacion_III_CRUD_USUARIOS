@@ -8,6 +8,7 @@
         public string? Contrasena { get; set; }
         public DateTime? FechaCreacion { get; set; }
         public int IdRol { get; set; }
+        public string? NombreRol { get; set; }
         public string? NombreCompleto { get; set; }
         public string? Nombre { get; set; }
         public string? Apellido1 { get; set; }
