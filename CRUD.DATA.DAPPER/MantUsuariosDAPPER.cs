@@ -17,7 +17,8 @@ namespace CRUD.DATA.DAPPER
         private const string sp_spObtenerRoles = "spObtenerRoles";
         private const string sp_spRegistrarUsuarios = "spRegistrarUsuarios";
         private const string sp_spObtenerUsuarios = "spObtenerUsuarios";
-
+        private const string sp_spObtenerUsuarioPorId = "spObtenerUsuarioPorId";
+        private const string sp_spActualizarUsuarioPorId = "spActualizarUsuarioPorId";
         #endregion
 
 
@@ -32,7 +33,7 @@ namespace CRUD.DATA.DAPPER
         public MantUsuariosDAPPER(IConfiguration configuration)
         {
 
-            _Config = configuration; 
+            _Config = configuration;
         }
 
         #endregion
@@ -180,6 +181,74 @@ namespace CRUD.DATA.DAPPER
         }
 
 
+        public Respuesta<UsuarioDTO> ActualizarUsuarioPorId(UsuarioDTO ObjUsuario)
+        {
+
+            Respuesta<UsuarioDTO> respuesta = new Respuesta<UsuarioDTO>();
+            try
+            {
+
+                var ConexionBD = _Config.GetConnectionString("Conexion");
+
+                using (SqlConnection connection = new SqlConnection(ConexionBD))
+                {
+
+                    connection.Open();
+
+
+                    using (SqlCommand command = new SqlCommand(sp_spActualizarUsuarioPorId, connection))
+                    {
+
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.Add(new SqlParameter("@pIdUsuario", SqlDbType.Int) { Value = ObjUsuario.IdUsuario });
+                        command.Parameters.Add(new SqlParameter("@pCorreo", SqlDbType.NVarChar, 80) { Value = ObjUsuario.Correo });
+                        command.Parameters.Add(new SqlParameter("@pContrasena", SqlDbType.NVarChar, 50) { Value = ObjUsuario.Contrasena });
+                        command.Parameters.Add(new SqlParameter("@pIdRol", SqlDbType.Int) { Value = ObjUsuario.IdRol });
+                        command.Parameters.Add(new SqlParameter("@pNombre", SqlDbType.NVarChar, 50) { Value = ObjUsuario.Nombre });
+                        command.Parameters.Add(new SqlParameter("@pApellido1", SqlDbType.NVarChar, 50) { Value = ObjUsuario.Apellido1 });
+                        command.Parameters.Add(new SqlParameter("@pApellido2", SqlDbType.NVarChar, 50) { Value = ObjUsuario.Apellido2 });
+                        command.Parameters.Add(new SqlParameter("@pFechaNac", SqlDbType.Date) { Value = ObjUsuario.FechaNacimiento });
+                        command.Parameters.Add(new SqlParameter("@pGenero", SqlDbType.NVarChar, 50) { Value = ObjUsuario.Genero });
+                        command.Parameters.Add(new SqlParameter("@pTelefono", SqlDbType.NVarChar, 50) { Value = ObjUsuario.Telefono });
+                        command.Parameters.Add(new SqlParameter("@pDireccion", SqlDbType.NVarChar, 400) { Value = ObjUsuario.Direccion });
+
+                        int FilasAfectadas = command.ExecuteNonQuery();
+
+                        if (FilasAfectadas > 0)
+                        {
+
+                            respuesta.Ok = true;
+                            respuesta.Mensaje = "La información del usuario ha sido actualizada de manera exitosa.";
+                            respuesta.ValorRetorno = null;
+
+                        }
+                        else
+                        {
+                            respuesta.Ok = false;
+                            respuesta.Mensaje = "Ha ocurrido un error al intentar actualizar la información del usuario.";
+                            respuesta.ValorRetorno = null;
+
+                        }
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                respuesta.Ok = false;
+                respuesta.Mensaje = $"Ha ocurrido un error en la función ActualizarUsuarioPorId de la capa DAPPER {ex.Message}";
+                respuesta.ValorRetorno = null;
+            }
+
+            return respuesta;
+
+        }
+
+
         public Respuesta<List<UsuarioDTO>> ObtenerUsuarios()
         {
 
@@ -247,6 +316,82 @@ namespace CRUD.DATA.DAPPER
 
                 respuesta.Ok = false;
                 respuesta.Mensaje = $"Ha ocurrido un error en la función ObtenerUsuarios de la capa DAPPER {ex.Message}";
+                respuesta.ValorRetorno = null;
+            }
+
+            return respuesta;
+
+        }
+
+
+        public Respuesta<UsuarioDTO> ObtenerUsuarioPorId(UsuarioDTO ObjUsuario)
+        {
+
+            Respuesta<UsuarioDTO> respuesta = new Respuesta<UsuarioDTO>();
+            try
+            {
+
+                var ConexionBD = _Config.GetConnectionString("Conexion");
+
+                using (SqlConnection connection = new SqlConnection(ConexionBD))
+                {
+
+                    connection.Open();
+
+
+                    using (SqlCommand command = new SqlCommand(sp_spObtenerUsuarioPorId, connection))
+                    {
+
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.Add(new SqlParameter("@pIdUsuario", SqlDbType.Int) { Value = ObjUsuario.IdUsuario });
+                        //command.Parameters.Add(new SqlParameter("@pContrasena", SqlDbType.NVarChar, 50) { Value = ObjUsuario.Contrasena });
+
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+
+                            if (reader.Read())
+                            {
+
+                                UsuarioDTO Usuario = new UsuarioDTO
+                                {
+                                    IdUsuario = (int)reader["IdUsuario"],
+                                    Correo = (string)reader["Correo"],
+                                    Contrasena = (string)reader["Contrasena"],
+                                    IdRol = (int)reader["IdRol"],
+                                    Nombre = (string)reader["Nombre"],
+                                    Apellido1 = (string)reader["Apellido1"],
+                                    Apellido2 = (string)reader["Apellido2"],
+                                    FechaNacimiento = (DateTime)reader["FechaNacimiento"],
+                                    Genero = (string)reader["Genero"],
+                                    Telefono = (string)reader["Telefono"],
+                                    Direccion = (string)reader["Direccion"],
+
+                                };
+
+                                respuesta.Ok = true;
+                                respuesta.Mensaje = "Se han obtenido el usuario de manera exitosa.";
+                                respuesta.ValorRetorno = Usuario;
+
+                            }
+
+                          
+
+                        }
+
+
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                respuesta.Ok = false;
+                respuesta.Mensaje = $"Ha ocurrido un error en la función ObtenerUsuarioPorId de la capa DAPPER {ex.Message}";
                 respuesta.ValorRetorno = null;
             }
 

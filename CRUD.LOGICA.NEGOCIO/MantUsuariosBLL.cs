@@ -90,6 +90,36 @@ namespace CRUD.LOGICA.NEGOCIO
 
         }
 
+        public Respuesta<UsuarioDTO> ActualizarUsuarioPorId(UsuarioDTO ObjUsuario)
+        {
+
+            Respuesta<UsuarioDTO> respuesta = new Respuesta<UsuarioDTO>();
+
+            try
+            {
+
+                var resDAL = _MantUsuarioDapper.ActualizarUsuarioPorId(ObjUsuario);
+
+                if (resDAL != null)
+                {
+
+                    respuesta = resDAL;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                respuesta.Ok = false;
+                respuesta.Mensaje = $"Ha ocurrido un error en la función ActualizarUsuarioPorId {ex.Message}";
+                respuesta.ValorRetorno = null;
+            }
+
+            return respuesta;
+
+        }
+
         public Respuesta<List<UsuarioDTO>> ObtenerUsuarios()
         {
 
@@ -112,6 +142,36 @@ namespace CRUD.LOGICA.NEGOCIO
 
                 respuesta.Ok = false;
                 respuesta.Mensaje = $"Ha ocurrido un error en la capa MantUsuarioBLL en el método ObtenerUsuarios {ex.Message}";
+                respuesta.ValorRetorno = null;
+            }
+
+            return respuesta;
+
+
+        }
+
+        public Respuesta<UsuarioDTO> ObtenerUsuarioPorId(UsuarioDTO ObjUsuario)
+        {
+
+            Respuesta<UsuarioDTO> respuesta = new Respuesta<UsuarioDTO>();
+
+            try
+            {
+
+                var ResDal = _MantUsuarioDapper.ObtenerUsuarioPorId(ObjUsuario);
+
+                if (ResDal != null)
+                {
+                    respuesta = ResDal;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                respuesta.Ok = false;
+                respuesta.Mensaje = $"Ha ocurrido un error en la capa MantUsuarioBLL en el método ObtenerUsuarioPorId {ex.Message}";
                 respuesta.ValorRetorno = null;
             }
 
