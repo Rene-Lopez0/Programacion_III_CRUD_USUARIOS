@@ -198,7 +198,7 @@
                                 <td>@usr.Telefono</td>
                                 <td>
 
-                                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEditarEliminarUsuario"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Editar</button>
+                                    <button class="btn btn-warning btnObtenerUsuarioPorId" data-IdUsuario="@usr.IdUsuario" data-bs-toggle="modal" data-bs-target="#modalEditarEliminarUsuario"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Editar</button>
                                     <button class="btn btn-danger"><i class="fa-solid fa-trash"></i>&nbsp;Eliminar</button>
 
 
@@ -248,7 +248,7 @@
 
             <div class="modal-body">
                 <!-- (Opcional) ID oculto del usuario -->
-                <input class="form-control" type="text" id="ModalInputIdUsuario" />
+                <input class="form-control" type="text" id="ModalInputIdUsuario"  hidden/>
 
                 <div class="container-fluid">
                     <div class="row g-3">
@@ -322,7 +322,7 @@
                             <label class="form-label">Fecha de nacimiento:</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
-                                <input type="date" class="form-control" id="ModalInputFechaNac" placeholder="Ingrese su fecha de nacimiento" />
+                                <input type="datetime-local" class="form-control" id="ModalInputFechaNac" placeholder="Ingrese su fecha de nacimiento" />
                             </div>
                         </div>
 
